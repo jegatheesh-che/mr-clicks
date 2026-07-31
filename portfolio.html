@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio & Stories | Mr Clicks Photography</title>
+  <meta name="description" content="View featured wedding, lifestyle, and personal branding stories by Mr Clicks Photography.">
+  <link rel="icon" type="image/png" href="assets/images/img40.webp">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
+</head>
+<body>
+
+  <!-- Custom Cursor (site-wide) -->
+  <div class="mc-cursor" id="mc-cursor" aria-hidden="true"></div>
+  <div class="mc-cursor-dot" id="mc-cursor-dot" aria-hidden="true"></div>
+
+  <!-- Sticky Global Header -->
+  <header class="header-bar">
+    <a href="index.html" class="brand-logo">
+      <img src="assets/images/img40.webp" alt="Mr Clicks Logo">
+      <span>Mr Clicks</span>
+    </a>
+
+    <nav>
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="about.html" class="nav-link">Mithun</a></li>
+        <li class="nav-item-dropdown">
+          <a href="portfolio.html" class="nav-link active">Weddings &#9662;</a>
+          <ul class="dropdown-content">
+            <li><a href="portfolio.html?filter=weddings" class="dropdown-link">Portfolio</a></li>
+            <li><a href="portfolio.html?filter=stories" class="dropdown-link">Stories</a></li>
+            <li><a href="portfolio.html?filter=branding" class="dropdown-link">Personal Branding</a></li>
+          </ul>
+        </li>
+        <li><a href="portfolio.html?filter=lifestyle" class="nav-link">Lifestyle</a></li>
+
+        <li><a href="contact.html" class="nav-link">Connect</a></li>
+      </ul>
+    </nav>
+
+    <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle navigation menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <!-- Mobile Overlay Navigation -->
+  <div class="mobile-overlay" id="mobile-overlay">
+    <div class="mobile-overlay-header">
+      <span class="brand-text-logo">MR CLICKS</span>
+    </div>
+    
+    <div class="mobile-overlay-body">
+      <ul class="mobile-nav-links">
+        <li>
+          <a href="index.html" class="mobile-nav-link">
+            <span class="num">01</span>
+            <span class="label">Home</span>
+          </a>
+        </li>
+        <li>
+          <a href="about.html" class="mobile-nav-link">
+            <span class="num">02</span>
+            <span class="label">Mithun</span>
+          </a>
+        </li>
+        <li>
+          <a href="portfolio.html" class="mobile-nav-link">
+            <span class="num">03</span>
+            <span class="label">Weddings &amp; Stories</span>
+          </a>
+        </li>
+        <li>
+          <a href="portfolio.html?filter=lifestyle" class="mobile-nav-link">
+            <span class="num">04</span>
+            <span class="label">Lifestyle</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="contact.html" class="mobile-nav-link">
+            <span class="num">05</span>
+            <span class="label">Connect</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="mobile-overlay-footer">
+        <a href="mailto:hello@mrclicks.com" class="mobile-footer-email">hello@mrclicks.com</a>
+        <div class="mobile-footer-socials">
+          <a href="https://www.instagram.com/mrclicks/" target="_blank">Instagram</a>
+          <span class="sep">&bull;</span>
+          <a href="https://pinterest.com" target="_blank">Pinterest</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <!-- Portfolio Hero Section -->
+    <section class="hero-section" style="background-image: url('assets/images/img8.webp'); height: 60vh; min-height: 480px; background-position: center;">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <span class="script-subheading" style="color: var(--color-cream-bg); font-size: 1.6rem;">Real Moments & Unpolished Stories</span>
+        <h1 class="hero-title" style="font-size: 3.25rem;">Portfolio & Stories</h1>
+      </div>
+    </section>
+
+    <!-- Portfolio Gallery Grid Section -->
+    <section class="section-padding container">
+      <!-- Filter Buttons -->
+      <div class="portfolio-filters">
+        <button class="filter-btn active" onclick="filterPortfolio('all', this)">All Work</button>
+        <button class="filter-btn" onclick="filterPortfolio('weddings', this)">Weddings</button>
+        <button class="filter-btn" onclick="filterPortfolio('stories', this)">Stories</button>
+        <button class="filter-btn" onclick="filterPortfolio('lifestyle', this)">Lifestyle</button>
+        <button class="filter-btn" onclick="filterPortfolio('branding', this)">Personal Branding</button>
+      </div>
+
+      <!-- Masonry Grid -->
+      <div class="portfolio-grid" id="portfolio-grid">
+        <!-- Rendered dynamically via JS array loop -->
+      </div>
+    </section>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox-modal" id="lightbox-modal" onclick="closeLightbox()">
+      <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+      <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Enlarged Portfolio View" class="lightbox-content" id="lightbox-img" onclick="event.stopPropagation();">
+    </div>
+
+    <!-- Section 6: Editorial Call To Action Banner -->
+    <section class="cta-banner-section">
+      <div class="container cta-banner-container">
+        <span class="script-subheading cta-subheading">Ready to create magic together?</span>
+        <h2 class="title-main cta-title">LET'S HAVE A CHAT!</h2>
+        <p class="cta-desc">Whether you're planning an intimate coastal elopement or a grand estate wedding, I'd love to hear your story.</p>
+        <div class="magnetic-zone">
+          <a href="contact.html" class="btn-primary magnetic-btn cta-btn" id="cta-reach-out-btn-portfolio">
+            <span class="magnetic-btn-text">Start The Conversation &rarr;</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Global Luxury Editorial Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid-luxury">
+        
+        <!-- Col 1: Brand Philosophy & Availability -->
+        <div class="footer-col brand-col">
+          <a href="index.html" class="footer-brand-logo">
+            <span class="brand-text-logo">MR CLICKS</span>
+          </a>
+          <p class="footer-bio-text">Hi, I'm Mithun. I capture unscripted, natural moments with a cinematic twist and editorial sensitivity across Newcastle, Brighton, and worldwide.</p>
+          <div class="availability-badge">
+            <span class="pulse-dot"></span>
+            <span class="badge-text">NOW BOOKING 2026 / 2027 WEDDINGS</span>
+          </div>
+        </div>
+
+        <!-- Col 2: Direct Contact & Socials -->
+        <div class="footer-col contact-col">
+          <h4 class="footer-col-title">GET IN TOUCH</h4>
+          <a href="mailto:hello@mrclicks.com" class="footer-contact-link email-link">hello@mrclicks.com</a>
+          <p class="footer-location">Brighton &amp; Newcastle, United Kingdom</p>
+          
+          <div class="footer-socials">
+            <a href="https://www.instagram.com/mrclicks/" target="_blank" class="social-link" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="https://pinterest.com" target="_blank" class="social-link" aria-label="Pinterest">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2a10 10 0 0 0-3.16 19.49c-.09-.82-.17-2.08.04-2.98l1.25-5.32s-.32-.64-.32-1.58c0-1.48.86-2.59 1.93-2.59.91 0 1.35.68 1.35 1.5 0 .91-.58 2.28-.88 3.55-.25 1.06.53 1.93 1.58 1.93 1.9 0 3.36-2 3.36-4.89 0-2.56-1.84-4.35-4.47-4.35-3.05 0-4.84 2.29-4.84 4.65 0 .92.35 1.91.8 2.45a.3.3 0 0 1 .07.28c-.08.32-.26 1.05-.3 1.19-.05.2-.17.25-.39.15-1.46-.68-2.38-2.82-2.38-4.54 0-3.7 2.69-7.1 7.76-7.1 4.07 0 7.24 2.9 7.24 6.78 0 4.05-2.55 7.31-6.09 7.31-1.19 0-2.31-.62-2.69-1.35l-.73 2.79c-.27 1.02-.99 2.3-1.48 3.08A10 10 0 1 0 12 2z"/></svg>
+            </a>
+            <a href="https://facebook.com" target="_blank" class="social-link" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Col 3: Navigation -->
+        <div class="footer-col nav-col">
+          <h4 class="footer-col-title">EXPLORE</h4>
+          <ul class="footer-nav-list">
+            <li><a href="index.html" class="footer-nav-link">Home</a></li>
+            <li><a href="about.html" class="footer-nav-link">Mithun</a></li>
+            <li><a href="portfolio.html" class="footer-nav-link">Weddings &amp; Stories</a></li>
+            <li><a href="portfolio.html?filter=lifestyle" class="footer-nav-link">Lifestyle</a></li>
+            <li><a href="details.html" class="footer-nav-link">Investment</a></li>
+            <li><a href="contact.html" class="footer-nav-link">Connect</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Watermark Brand Accent -->
+      <div class="footer-watermark" aria-hidden="true">MR CLICKS</div>
+
+      <!-- Footer Bottom Bar -->
+      <div class="footer-bottom-bar">
+        <p class="copyright-text">&copy; <span id="footer-year-portfolio">2026</span> Mr Clicks Photography. All Rights Reserved.</p>
+        <div class="footer-legal-links">
+          <a href="#" class="legal-link">Privacy Policy</a>
+          <span class="dot-sep">&bull;</span>
+          <a href="#" class="legal-link">Terms of Service</a>
+        </div>
+        <button class="back-to-top-btn back-to-top" aria-label="Back to Top">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+          <span>TOP</span>
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/app.js"></script>
+  <script>
+    // URL Query Parameter filter auto-trigger
+    window.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const filter = urlParams.get('filter');
+      if (filter) {
+        const btn = Array.from(document.querySelectorAll('.filter-btn'))
+          .find(b => b.textContent.toLowerCase().includes(filter));
+        filterPortfolio(filter, btn);
+      }
+    });
+  </script>
+</body>
+</html>

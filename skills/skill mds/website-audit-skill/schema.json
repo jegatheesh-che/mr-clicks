@@ -1,0 +1,89 @@
+{
+  "meta": {
+    "url": "",
+    "captured_at": "",
+    "pages_audited": [],
+    "viewports_tested": ["1440x900", "768x1024", "375x812"]
+  },
+
+  "tokens": {
+    "colors": [
+      { "name": "primary", "value": "#000000", "usage": ["buttons", "links"], "confidence": "source" }
+    ],
+    "typography": {
+      "font_families": [
+        { "role": "heading", "family": "", "source": "google-fonts | self-hosted | system", "weights": [] }
+      ],
+      "scale": [
+        { "role": "h1", "size_px": 0, "weight": 0, "line_height": 0, "letter_spacing": "" }
+      ]
+    },
+    "spacing_scale_px": [],
+    "radii_px": [],
+    "shadows": [
+      { "name": "card", "value": "" }
+    ],
+    "breakpoints_px": []
+  },
+
+  "sections": [
+    {
+      "name": "hero",
+      "dom_order": 0,
+      "layout": {
+        "display": "flex | grid",
+        "direction": "row | column",
+        "justify": "",
+        "align": "",
+        "gap_px": 0,
+        "max_width_px": 0,
+        "padding_px": ""
+      },
+      "components": [
+        {
+          "type": "button | card | nav | text | image",
+          "computed_style": {
+            "color": "",
+            "background_color": "",
+            "font_family": "",
+            "font_size_px": 0,
+            "font_weight": 0,
+            "line_height": 0,
+            "padding_px": "",
+            "margin_px": "",
+            "border_radius_px": 0,
+            "box_shadow": ""
+          }
+        }
+      ],
+      "animations": [
+        {
+          "trigger": "load | scroll | hover",
+          "type": "fade-in | slide-up | slide-left | scale | parallax | other",
+          "duration_ms": null,
+          "ease": "",
+          "delay_ms": null,
+          "stagger_ms": null,
+          "direction": "",
+          "source_confirmed": false,
+          "confidence": "source | estimated | unknown",
+          "notes": "",
+          "screenshot_refs": []
+        }
+      ]
+    }
+  ],
+
+  "global_animations": [],
+
+  "assets": [
+    {
+      "type": "img | svg | background-image | icon-font",
+      "src": "",
+      "rendered_width_px": 0,
+      "rendered_height_px": 0,
+      "object_fit": "",
+      "alt": ""
+    }
+  ]
+}
