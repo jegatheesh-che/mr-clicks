@@ -3,15 +3,28 @@ import { collection, getDocs, query, orderBy } from "https://www.gstatic.com/fir
 
 async function loadDynamicPortfolio() {
   try {
+    // 1. Fetch Categories dynamically
+    const categoriesQ = query(collection(db, 'categories'), orderBy('createdAt', 'asc'));
+    const categoriesSnap = await getDocs(categoriesQ);
+    
+    const filterContainer = document.querySelector('.portfolio-filters');
+    if (filterContainer && !categoriesSnap.empty) {
+      let filtersHTML = `<button class="filter-btn active" onclick="filterPortfolio('all', this)">All Work</button>`;
+      categoriesSnap.forEach(docSnap => {
+        const cat = docSnap.data();
+        filtersHTML += `<button class="filter-btn" onclick="filterPortfolio('${cat.slug}', this)">${cat.name}</button>`;
+      });
+      filterContainer.innerHTML = filtersHTML;
+    }
+
+    // 2. Fetch Images dynamically
     const q = query(collection(db, 'portfolio_images'), orderBy('createdAt', 'desc'));
     const querySnapshot = await getDocs(q);
     
     querySnapshot.forEach((docSnap) => {
       const data = docSnap.data();
-      // Push the dynamic images to the existing hardcoded array
-      // Note: PORTFOLIO_IMAGES_DATA is a global constant array defined in app.js
       if (window.PORTFOLIO_IMAGES_DATA) {
-        window.PORTFOLIO_IMAGES_DATA.unshift({
+        window.PORTFOLIO_IMAGES_DATA.push({
           url: data.url,
           category: data.category || 'weddings',
           title: data.title || 'Portfolio Image'
@@ -19,16 +32,12 @@ async function loadDynamicPortfolio() {
       }
     });
 
-    // Re-render the portfolio if the function exists
+    // 3. Re-render the portfolio
     if (typeof window.renderPortfolio === 'function') {
-      // Get current active filter
       const activeBtn = document.querySelector('.filter-btn.active');
       let currentFilter = 'all';
-      if (activeBtn) {
-        if (activeBtn.textContent.toLowerCase().includes('weddings')) currentFilter = 'weddings';
-        else if (activeBtn.textContent.toLowerCase().includes('stories')) currentFilter = 'stories';
-        else if (activeBtn.textContent.toLowerCase().includes('lifestyle')) currentFilter = 'lifestyle';
-        else if (activeBtn.textContent.toLowerCase().includes('branding')) currentFilter = 'branding';
+      if (activeBtn && activeBtn.textContent !== 'All Work') {
+        currentFilter = activeBtn.getAttribute('onclick').match(/'([^']+)'/)[1];
       }
       window.renderPortfolio(currentFilter);
     }

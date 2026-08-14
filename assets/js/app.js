@@ -112,45 +112,7 @@ const PROCESS_STEPS_DATA = [
   }
 ];
 
-window.PORTFOLIO_IMAGES_DATA = [
-  // Weddings
-  { url: "assets/images/img15.webp", category: "weddings", title: "Brighton Coastal Romance" },
-  { url: "assets/images/img16.webp", category: "weddings", title: "Cinematic Sunset Moments" },
-  { url: "assets/images/img19.webp", category: "weddings", title: "Unpolished Love Stories" },
-  { url: "assets/images/img21.webp", category: "weddings", title: "Intimate Celebrations" },
-  { url: "assets/images/img23.webp", category: "weddings", title: "Confetti & Joy" },
-  { url: "assets/images/img52.webp", category: "weddings", title: "Golden Hour Glow" },
-  { url: "assets/images/img58.webp", category: "weddings", title: "Joyous Traditions" },
-  { url: "assets/images/img72.webp", category: "weddings", title: "Timeless Romance" },
-  { url: "assets/images/img12.webp", category: "weddings", title: "Autumn Canopy Vows" },
-  { url: "assets/images/img30.webp", category: "weddings", title: "Midnight Sparklers" },
-
-  // Stories (Full Day Narrative / Editorial)
-  { url: "assets/images/img54.webp", category: "stories", title: "Cultural Elegance & Heritage" },
-  { url: "assets/images/img29.webp", category: "stories", title: "Serengeti Whispers" },
-  { url: "assets/images/img32.webp", category: "stories", title: "City Promenade in Newcastle" },
-  { url: "assets/images/img51.webp", category: "stories", title: "Monument Flight & Pigeons" },
-  { url: "assets/images/img57.webp", category: "stories", title: "Academic Triumph & Pride" },
-  { url: "assets/images/img2.webp",  category: "stories", title: "The Quiet Before The Vows" },
-  { url: "assets/images/img3.webp",  category: "stories", title: "Silk, Henna & Stolen Gazes" },
-
-  // Lifestyle (Family, Maternity, Portraits)
-  { url: "assets/images/img17.webp", category: "lifestyle", title: "Editorial Portraiture" },
-  { url: "assets/images/img20.webp", category: "lifestyle", title: "Maternity & Family" },
-  { url: "assets/images/img4.webp",  category: "lifestyle", title: "Gentle Whispers" },
-  { url: "assets/images/img68.webp", category: "lifestyle", title: "Atmospheric Expressions" },
-  { url: "assets/images/img28.webp", category: "lifestyle", title: "Autumn Woods Portrait" },
-  { url: "assets/images/img14.webp", category: "lifestyle", title: "Sweet Newborn Dreams" },
-  { url: "assets/images/img31.webp", category: "lifestyle", title: "Bokeh City Lights" },
-
-  // Personal Branding
-  { url: "assets/images/img18.webp", category: "branding", title: "Fempreneur Creative Vision" },
-  { url: "assets/images/img22.webp", category: "branding", title: "Personal Brand Portrait" },
-  { url: "assets/images/img63.webp", category: "branding", title: "Modern Professional Lifestyle" },
-  { url: "assets/images/img51.webp", category: "branding", title: "Visual Storyteller on Location" },
-  { url: "assets/images/img57.webp", category: "branding", title: "Creative Academic Portrait" },
-  { url: "assets/images/img32.webp", category: "branding", title: "Contemporary Artist Profile" }
-];
+window.PORTFOLIO_IMAGES_DATA = [];
 
 // --- LOOPING ENGINE FUNCTIONS ---
 
