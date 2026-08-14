@@ -49,9 +49,11 @@ body {
 .app-view {
   display: none;
   animation: fadeIn 0.3s ease;
+  height: 100%;
 }
 .app-view.active {
-  display: block;
+  display: flex;
+  flex-direction: column;
 }
 
 @keyframes fadeIn {
@@ -303,7 +305,14 @@ p.view-subtitle {
     flex-direction: row;
   }
   
+  .app-view.active {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+  }
+  
   .app-nav {
+    order: -1; /* Move to the left side */
     position: relative;
     width: var(--sidebar-width);
     height: 100vh;
