@@ -47,15 +47,25 @@
           <div>
             <h1 class="view-title">Gallery</h1>
             <p class="view-subtitle" id="gallery-count">Manage your portfolio images</p>
+          <div style="display: flex; gap: 10px;">
+            <button id="select-mode-btn" class="btn" style="width: auto; padding: 0.5rem 1rem; background: var(--app-surface-elevated); color: var(--app-text);">
+              Select
+            </button>
+            <button id="logout-btn" class="btn danger" style="width: auto; padding: 0.5rem 1rem;" title="Logout">
+              <i data-feather="log-out" style="width: 16px; height: 16px;"></i>
+            </button>
           </div>
-          <button id="logout-btn" class="btn danger" style="width: auto; padding: 0.5rem 1rem;">
-            <i data-feather="log-out" style="width: 16px; height: 16px;"></i>
-          </button>
         </div>
         
         <div class="masonry-grid" id="admin-image-grid">
           <!-- Images populated via JS -->
           <p style="color: var(--app-text-muted);">Loading images...</p>
+        </div>
+        
+        <!-- Bulk Action Bar -->
+        <div class="bulk-action-bar" id="bulk-action-bar">
+          <span id="bulk-count">0 Selected</span>
+          <button id="bulk-delete-btn" class="btn danger" style="width: auto; padding: 0.5rem 1rem;">Delete Selected</button>
         </div>
       </div>
     </div>
@@ -72,8 +82,8 @@
               <label>Select Image</label>
               <div style="position: relative; overflow: hidden; background: var(--app-bg); border-radius: 12px; border: 1px dashed rgba(255,255,255,0.2); padding: 2rem; text-align: center; cursor: pointer;" onclick="document.getElementById('image-file').click()">
                 <i data-feather="upload-cloud" style="width: 32px; height: 32px; color: var(--app-primary); margin-bottom: 0.5rem;"></i>
-                <p style="color: var(--app-text-muted); font-size: 0.85rem;" id="file-name-display">Tap to choose a file</p>
-                <input type="file" id="image-file" accept="image/*" required style="display: none;" onchange="document.getElementById('file-name-display').textContent = this.files[0]?.name || 'Tap to choose a file'">
+                <p style="color: var(--app-text-muted); font-size: 0.85rem;" id="file-name-display">Tap to choose files</p>
+                <input type="file" id="image-file" accept="image/*" multiple required style="display: none;" onchange="document.getElementById('file-name-display').textContent = this.files.length > 1 ? this.files.length + ' files selected' : (this.files[0]?.name || 'Tap to choose files')">
               </div>
             </div>
             

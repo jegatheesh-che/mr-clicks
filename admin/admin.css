@@ -299,6 +299,64 @@ p.view-subtitle {
 }
 
 
+/* --- Selection Mode & Bulk Actions --- */
+.masonry-item.selectable {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.masonry-item.selectable:active {
+  transform: scale(0.96);
+}
+.masonry-item.selected {
+  border: 3px solid var(--app-primary);
+}
+.masonry-item.selected::after {
+  content: "✓";
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--app-primary);
+  color: var(--app-bg);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+  z-index: 10;
+}
+.bulk-action-bar {
+  position: fixed;
+  bottom: calc(var(--nav-height) + 20px);
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--app-surface-elevated);
+  padding: 1rem 1.5rem;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+  z-index: 1500;
+  opacity: 0;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
+  pointer-events: none;
+}
+.bulk-action-bar.visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+  pointer-events: all;
+}
+#bulk-count {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--app-text);
+  white-space: nowrap;
+}
+
+
 /* --- PC / Tablet Responsiveness --- */
 @media (min-width: 768px) {
   .app-container {

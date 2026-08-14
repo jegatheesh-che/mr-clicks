@@ -13,6 +13,14 @@ const uploadBtn = document.getElementById('upload-btn');
 const adminImageGrid = document.getElementById('admin-image-grid');
 const galleryCount = document.getElementById('gallery-count');
 
+// Selection Mode State
+let isSelectionMode = false;
+let selectedImageIds = new Set();
+const selectModeBtn = document.getElementById('select-mode-btn');
+const bulkActionBar = document.getElementById('bulk-action-bar');
+const bulkCountText = document.getElementById('bulk-count');
+const bulkDeleteBtn = document.getElementById('bulk-delete-btn');
+
 // Toast Notification System
 function showToast(message, type = 'success') {
   const container = document.getElementById('toast-container');
@@ -39,13 +47,11 @@ function showToast(message, type = 'success') {
 // Check Auth State
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    // User is signed in
     document.querySelectorAll('.app-view').forEach(v => v.classList.remove('active'));
     viewDashboard.classList.add('active');
     appNav.style.display = 'flex';
     loadImages();
   } else {
-    // User is signed out
     document.querySelectorAll('.app-view').forEach(v => v.classList.remove('active'));
     viewLogin.classList.add('active');
     appNav.style.display = 'none';
@@ -81,65 +87,144 @@ if (logoutBtn) {
   });
 }
 
-// Handle Image Upload
+// Handle Bulk Image Upload
 if (uploadForm) {
   uploadForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const fileInput = document.getElementById('image-file');
     const category = document.getElementById('image-category').value;
-    const title = document.getElementById('image-title').value;
+    let baseTitle = document.getElementById('image-title').value.trim();
     
     if (fileInput.files.length === 0) return;
-    const file = fileInput.files[0];
+    const files = Array.from(fileInput.files);
 
     uploadBtn.disabled = true;
     uploadBtn.innerHTML = '<i data-feather="loader" style="animation: spin 1s linear infinite;"></i> Uploading...';
     if (window.feather) feather.replace();
 
     try {
-      // 1. Upload to Cloudinary
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('upload_preset', cloudinaryConfig.uploadPreset);
-
-      const cloudinaryUrl = `https://api.cloudinary.com/v1_1/${cloudinaryConfig.cloudName}/image/upload`;
+      let successCount = 0;
       
-      const cloudinaryRes = await fetch(cloudinaryUrl, {
-        method: 'POST',
-        body: formData
+      // Upload files sequentially or in parallel (using Promise.all for parallel)
+      const uploadPromises = files.map(async (file, index) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', cloudinaryConfig.uploadPreset);
+
+        const cloudinaryUrl = `https://api.cloudinary.com/v1_1/${cloudinaryConfig.cloudName}/image/upload`;
+        
+        const cloudinaryRes = await fetch(cloudinaryUrl, {
+          method: 'POST',
+          body: formData
+        });
+
+        if (!cloudinaryRes.ok) throw new Error('Failed to upload image to Cloudinary.');
+
+        const cloudinaryData = await cloudinaryRes.json();
+        
+        // Auto-numbering title if there are multiple files
+        let finalTitle = baseTitle;
+        if (files.length > 1) {
+          finalTitle = baseTitle ? `${baseTitle} ${index + 1}` : `Untitled ${index + 1}`;
+        } else if (!baseTitle) {
+          finalTitle = 'Untitled';
+        }
+        
+        await addDoc(collection(db, 'portfolio_images'), {
+          url: cloudinaryData.secure_url,
+          category: category,
+          title: finalTitle,
+          createdAt: serverTimestamp()
+        });
+        
+        successCount++;
       });
-
-      if (!cloudinaryRes.ok) {
-        throw new Error('Failed to upload image. Check your CloudName and UploadPreset.');
-      }
-
-      const cloudinaryData = await cloudinaryRes.json();
-      const imageUrl = cloudinaryData.secure_url;
-
-      // 2. Save URL to Firestore
-      uploadBtn.innerHTML = 'Saving to Database...';
       
-      await addDoc(collection(db, 'portfolio_images'), {
-        url: imageUrl,
-        category: category,
-        title: title || 'Untitled',
-        createdAt: serverTimestamp()
-      });
+      await Promise.all(uploadPromises);
 
-      showToast("Image uploaded and saved successfully!", 'success');
+      showToast(`Successfully uploaded ${successCount} image(s)!`, 'success');
       uploadForm.reset();
-      document.getElementById('file-name-display').textContent = 'Tap to choose a file';
+      document.getElementById('file-name-display').textContent = 'Tap to choose files';
       
-      // Reload images and switch to dashboard
       loadImages();
       document.querySelector('.nav-item[data-target="view-dashboard"]').click();
 
     } catch (error) {
       console.error(error);
-      showToast(error.message, 'error');
+      showToast('Error uploading images', 'error');
     } finally {
       uploadBtn.disabled = false;
       uploadBtn.innerHTML = 'Upload to Cloudinary';
+    }
+  });
+}
+
+// Handle Selection Mode Toggle
+if (selectModeBtn) {
+  selectModeBtn.addEventListener('click', () => {
+    isSelectionMode = !isSelectionMode;
+    selectedImageIds.clear();
+    
+    if (isSelectionMode) {
+      selectModeBtn.style.background = 'var(--app-primary)';
+      selectModeBtn.style.color = 'var(--app-bg)';
+      selectModeBtn.textContent = 'Cancel';
+      bulkActionBar.classList.add('visible');
+    } else {
+      selectModeBtn.style.background = 'var(--app-surface-elevated)';
+      selectModeBtn.style.color = 'var(--app-text)';
+      selectModeBtn.textContent = 'Select';
+      bulkActionBar.classList.remove('visible');
+    }
+    updateBulkCount();
+    
+    // Toggle selectable class on all items
+    document.querySelectorAll('.masonry-item').forEach(item => {
+      if (isSelectionMode) {
+        item.classList.add('selectable');
+        item.querySelector('.delete-icon').style.display = 'none'; // hide normal delete button
+      } else {
+        item.classList.remove('selectable', 'selected');
+        item.querySelector('.delete-icon').style.display = 'flex';
+      }
+    });
+  });
+}
+
+// Update Bulk Selection Count
+function updateBulkCount() {
+  if (bulkCountText) {
+    bulkCountText.textContent = `${selectedImageIds.size} Selected`;
+  }
+}
+
+// Handle Bulk Delete
+if (bulkDeleteBtn) {
+  bulkDeleteBtn.addEventListener('click', async () => {
+    if (selectedImageIds.size === 0) return showToast('No images selected', 'error');
+    
+    if (confirm(`Are you sure you want to delete ${selectedImageIds.size} image(s)?`)) {
+      bulkDeleteBtn.disabled = true;
+      bulkDeleteBtn.innerHTML = 'Deleting...';
+      
+      try {
+        const deletePromises = Array.from(selectedImageIds).map(id => {
+          return deleteDoc(doc(db, 'portfolio_images', id));
+        });
+        
+        await Promise.all(deletePromises);
+        showToast(`Deleted ${selectedImageIds.size} image(s)`, 'success');
+        
+        // Exit selection mode
+        selectModeBtn.click(); 
+        loadImages();
+      } catch (err) {
+        console.error(err);
+        showToast('Error deleting images', 'error');
+      } finally {
+        bulkDeleteBtn.disabled = false;
+        bulkDeleteBtn.innerHTML = 'Delete Selected';
+      }
     }
   });
 }
@@ -166,7 +251,9 @@ async function loadImages() {
     querySnapshot.forEach((docSnap) => {
       const data = docSnap.data();
       const item = document.createElement('div');
-      item.className = 'masonry-item';
+      item.className = `masonry-item ${isSelectionMode ? 'selectable' : ''}`;
+      item.setAttribute('data-id', docSnap.id);
+      
       item.innerHTML = `
         <img src="${data.url}" alt="${data.title}">
         <div class="masonry-overlay">
@@ -174,7 +261,7 @@ async function loadImages() {
             <h4>${data.title}</h4>
             <p>${data.category.toUpperCase()}</p>
           </div>
-          <button class="delete-btn delete-icon" data-id="${docSnap.id}" title="Delete Image">
+          <button class="delete-btn delete-icon" data-id="${docSnap.id}" title="Delete Image" style="display: ${isSelectionMode ? 'none' : 'flex'};">
             <i data-feather="trash-2" style="width: 16px; height: 16px;"></i>
           </button>
         </div>
@@ -184,9 +271,31 @@ async function loadImages() {
     
     if (window.feather) feather.replace();
 
-    // Add delete event listeners
+    // Event listener for masonry items (Selection Mode)
+    document.querySelectorAll('.masonry-item').forEach(item => {
+      item.addEventListener('click', (e) => {
+        if (!isSelectionMode) return;
+        // Don't trigger if they somehow clicked the delete button
+        if (e.target.closest('.delete-btn')) return;
+        
+        const id = item.getAttribute('data-id');
+        if (selectedImageIds.has(id)) {
+          selectedImageIds.delete(id);
+          item.classList.remove('selected');
+        } else {
+          selectedImageIds.add(id);
+          item.classList.add('selected');
+        }
+        updateBulkCount();
+      });
+    });
+
+    // Event listener for individual delete buttons (Normal Mode)
     document.querySelectorAll('.delete-btn').forEach(btn => {
       btn.addEventListener('click', async (e) => {
+        if (isSelectionMode) return;
+        e.stopPropagation(); // prevent bubbling up
+        
         const id = e.currentTarget.getAttribute('data-id');
         if (confirm('Delete this image from the portfolio?')) {
           e.currentTarget.disabled = true;
