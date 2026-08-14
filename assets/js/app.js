@@ -27,7 +27,7 @@ const TESTIMONIALS_DATA = [
   {
     author: "Cara & Mandla",
     title: "Mithun Is Just So Incredible!",
-    quote: "She made two awkward people feel so comfortable in front of the camera and in turn we have the most beautiful images celebrating two huge milestones; our engagement and wedding. She’s also always willing and open to experimenting!"
+    quote: "He made two awkward people feel so comfortable in front of the camera and in turn we have the most beautiful images celebrating two huge milestones; our engagement and wedding. He’s also always willing and open to experimenting!"
   },
   {
     author: "Karina & Jon",
@@ -113,86 +113,49 @@ const PROCESS_STEPS_DATA = [
 ];
 
 const PORTFOLIO_IMAGES_DATA = [
-  {
-    url: "assets/images/img15.webp",
-    category: "weddings",
-    title: "Brighton Coastal Romance"
-  },
-  {
-    url: "assets/images/img16.webp",
-    category: "weddings",
-    title: "Cinematic Sunset Moments"
-  },
-  {
-    url: "assets/images/img17.webp",
-    category: "lifestyle",
-    title: "Editorial Portraiture"
-  },
-  {
-    url: "assets/images/img18.webp",
-    category: "branding",
-    title: "Fempreneur Branding"
-  },
-  {
-    url: "assets/images/img19.webp",
-    category: "weddings",
-    title: "Unpolished Love Stories"
-  },
-  {
-    url: "assets/images/img20.webp",
-    category: "lifestyle",
-    title: "Maternity & Family"
-  },
-  {
-    url: "assets/images/img21.webp",
-    category: "weddings",
-    title: "Intimate Celebrations"
-  },
-  {
-    url: "assets/images/img22.webp",
-    category: "branding",
-    title: "Personal Brand Portrait"
-  },
-  {
-    url: "assets/images/img23.webp",
-    category: "weddings",
-    title: "Confetti & Joy"
-  },
-  {
-    url: "assets/images/img52.webp",
-    category: "weddings",
-    title: "Golden Hour Glow"
-  },
-  {
-    url: "assets/images/img54.webp",
-    category: "stories",
-    title: "Candid Moments"
-  },
-  {
-    url: "assets/images/img58.webp",
-    category: "weddings",
-    title: "Joyous Moments"
-  },
-  {
-    url: "assets/images/img63.webp",
-    category: "branding",
-    title: "Modern Lifestyle"
-  },
-  {
-    url: "assets/images/img68.webp",
-    category: "lifestyle",
-    title: "Atmospheric Expressions"
-  },
-  {
-    url: "assets/images/img72.webp",
-    category: "weddings",
-    title: "Timeless Romance"
-  }
+  // Weddings
+  { url: "assets/images/img15.webp", category: "weddings", title: "Brighton Coastal Romance" },
+  { url: "assets/images/img16.webp", category: "weddings", title: "Cinematic Sunset Moments" },
+  { url: "assets/images/img19.webp", category: "weddings", title: "Unpolished Love Stories" },
+  { url: "assets/images/img21.webp", category: "weddings", title: "Intimate Celebrations" },
+  { url: "assets/images/img23.webp", category: "weddings", title: "Confetti & Joy" },
+  { url: "assets/images/img52.webp", category: "weddings", title: "Golden Hour Glow" },
+  { url: "assets/images/img58.webp", category: "weddings", title: "Joyous Traditions" },
+  { url: "assets/images/img72.webp", category: "weddings", title: "Timeless Romance" },
+  { url: "assets/images/img12.webp", category: "weddings", title: "Autumn Canopy Vows" },
+  { url: "assets/images/img30.webp", category: "weddings", title: "Midnight Sparklers" },
+
+  // Stories (Full Day Narrative / Editorial)
+  { url: "assets/images/img54.webp", category: "stories", title: "Cultural Elegance & Heritage" },
+  { url: "assets/images/img29.webp", category: "stories", title: "Serengeti Whispers" },
+  { url: "assets/images/img32.webp", category: "stories", title: "City Promenade in Newcastle" },
+  { url: "assets/images/img51.webp", category: "stories", title: "Monument Flight & Pigeons" },
+  { url: "assets/images/img57.webp", category: "stories", title: "Academic Triumph & Pride" },
+  { url: "assets/images/img2.webp",  category: "stories", title: "The Quiet Before The Vows" },
+  { url: "assets/images/img3.webp",  category: "stories", title: "Silk, Henna & Stolen Gazes" },
+
+  // Lifestyle (Family, Maternity, Portraits)
+  { url: "assets/images/img17.webp", category: "lifestyle", title: "Editorial Portraiture" },
+  { url: "assets/images/img20.webp", category: "lifestyle", title: "Maternity & Family" },
+  { url: "assets/images/img4.webp",  category: "lifestyle", title: "Gentle Whispers" },
+  { url: "assets/images/img68.webp", category: "lifestyle", title: "Atmospheric Expressions" },
+  { url: "assets/images/img28.webp", category: "lifestyle", title: "Autumn Woods Portrait" },
+  { url: "assets/images/img14.webp", category: "lifestyle", title: "Sweet Newborn Dreams" },
+  { url: "assets/images/img31.webp", category: "lifestyle", title: "Bokeh City Lights" },
+
+  // Personal Branding
+  { url: "assets/images/img18.webp", category: "branding", title: "Fempreneur Creative Vision" },
+  { url: "assets/images/img22.webp", category: "branding", title: "Personal Brand Portrait" },
+  { url: "assets/images/img63.webp", category: "branding", title: "Modern Professional Lifestyle" },
+  { url: "assets/images/img51.webp", category: "branding", title: "Visual Storyteller on Location" },
+  { url: "assets/images/img57.webp", category: "branding", title: "Creative Academic Portrait" },
+  { url: "assets/images/img32.webp", category: "branding", title: "Contemporary Artist Profile" }
 ];
 
 // --- LOOPING ENGINE FUNCTIONS ---
 
 let currentTestimonialIndex = 0;
+let testimonialAutoTimer = null;
 
 function renderTestimonials() {
   const container = document.getElementById('testimonial-container');
@@ -213,7 +176,7 @@ function renderTestimonials() {
         <h3 class="testimonial-title">${current.title}</h3>
         <p class="testimonial-quote">“${current.quote}”</p>
         <div class="testimonial-author-wrap">
-          <span class="testimonial-author-name">${current.author}</span>
+          <span class="testimonial-author-name">— ${current.author}</span>
         </div>
       </div>
     `;
@@ -304,8 +267,8 @@ function renderPortfolio(filter = 'all') {
     <div class="portfolio-item" onclick="openLightbox('${item.url}')">
       <img src="${item.url}" alt="${item.title}" loading="lazy" />
       <div class="portfolio-overlay">
-        <h4 style="font-family: var(--font-title); letter-spacing: 0.1em;">${item.title}</h4>
-        <span class="script-subheading" style="color: var(--color-cream-bg); font-size: 0.9rem;">View Image</span>
+        <h4 style="font-family: var(--font-title); letter-spacing: 0.1em; font-size: 1.1rem; margin-bottom: 0.35rem;">${item.title}</h4>
+        <span class="script-subheading" style="color: var(--color-sand-accent); font-size: 1.05rem;">View Image</span>
       </div>
     </div>
   `).join('');
@@ -313,16 +276,38 @@ function renderPortfolio(filter = 'all') {
 
 function filterPortfolio(category, btnElement) {
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  if (btnElement) btnElement.classList.add('active');
+  if (btnElement) {
+    btnElement.classList.add('active');
+  } else {
+    const matchedBtn = Array.from(document.querySelectorAll('.filter-btn'))
+      .find(b => b.textContent.toLowerCase().includes(category));
+    if (matchedBtn) matchedBtn.classList.add('active');
+  }
   renderPortfolio(category);
 }
 
 function openLightbox(imageUrl) {
-  const modal = document.getElementById('lightbox-modal');
-  const modalImg = document.getElementById('lightbox-img');
+  let modal = document.getElementById('lightbox-modal');
+  let modalImg = document.getElementById('lightbox-img');
+  
+  // Create dynamically if not already on page (e.g., on about.html)
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.className = 'lightbox-modal';
+    modal.id = 'lightbox-modal';
+    modal.onclick = closeLightbox;
+    modal.innerHTML = `
+      <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+      <img src="${imageUrl}" alt="Enlarged View" class="lightbox-content" id="lightbox-img" onclick="event.stopPropagation();">
+    `;
+    document.body.appendChild(modal);
+    modalImg = document.getElementById('lightbox-img');
+  }
+
   if (modal && modalImg) {
     modalImg.src = imageUrl;
     modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
   }
 }
 
@@ -330,7 +315,48 @@ function closeLightbox() {
   const modal = document.getElementById('lightbox-modal');
   if (modal) {
     modal.classList.remove('active');
+    document.body.style.overflow = '';
   }
+}
+
+// Contact Form Handler with Luxury Animated Feedback
+function handleContactSubmit(e) {
+  if (e) e.preventDefault();
+  const form = document.getElementById('contact-form');
+  const wrapper = document.querySelector('.contact-wrapper');
+  if (!form || !wrapper) return false;
+
+  const firstName = document.getElementById('first-name')?.value || 'Friend';
+
+  // Smooth fade out form and show luxury confirmation card
+  form.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+  form.style.opacity = '0';
+  form.style.transform = 'translateY(-15px)';
+
+  setTimeout(() => {
+    wrapper.innerHTML = `
+      <div class="contact-success-card" id="contact-success-card">
+        <div class="success-icon-wrap">
+          <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 6L9 17l-5-5"/>
+          </svg>
+        </div>
+        <span class="script-subheading" style="color: var(--color-earth-dark); font-size: 1.6rem;">Thank you, ${firstName}!</span>
+        <h3 class="title-main" style="font-size: 2rem; margin: 0.5rem 0 1rem 0;">Your Story Has Been Received</h3>
+        <p class="body-text" style="max-width: 540px; margin: 0 auto 2rem auto; color: #4A3C2C;">
+          I'm so thrilled to connect with you. I will review all the details and get back to you with availability and collection info within <strong>24 to 48 hours</strong>.
+        </p>
+        <a href="index.html" class="btn-outline" style="border-color: var(--color-earth-dark); color: var(--color-earth-dark);">Back To Home</a>
+      </div>
+    `;
+
+    const successCard = document.getElementById('contact-success-card');
+    if (successCard && typeof gsap !== 'undefined') {
+      gsap.fromTo(successCard, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' });
+    }
+  }, 400);
+
+  return false;
 }
 
 // --- INITIALIZATION LISTENERS ---
@@ -370,10 +396,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Dynamic Footer Year
-  const yearEl = document.getElementById('footer-year');
-  if (yearEl) {
+  document.querySelectorAll('[id^="footer-year"]').forEach(yearEl => {
     yearEl.textContent = new Date().getFullYear();
-  }
+  });
 
   // Execute Array Loops
   renderTestimonials();
@@ -381,38 +406,331 @@ document.addEventListener('DOMContentLoaded', () => {
   renderProcessSteps();
   renderPortfolio();
 
-  // Auto slide testimonials every 7 seconds
-  setInterval(() => {
-    nextTestimonial();
-  }, 7000);
+  // Testimonials Auto Slide with Pause on Hover / Touch
+  const testimonialSection = document.getElementById('testimonials-section') || document.querySelector('.luxury-testimonial-section');
+  function startTestimonialTimer() {
+    if (!testimonialAutoTimer) {
+      testimonialAutoTimer = setInterval(() => {
+        nextTestimonial();
+      }, 7000);
+    }
+  }
+  function stopTestimonialTimer() {
+    if (testimonialAutoTimer) {
+      clearInterval(testimonialAutoTimer);
+      testimonialAutoTimer = null;
+    }
+  }
 
-  // Premium Hero Canvas Slideshow (2.5s Interval)
-  const heroSliderImages = [
-    "assets/images/img12.webp",
-    "assets/images/img20.webp",
-    "assets/images/img23.webp",
-    "assets/images/img29.webp",
-    "assets/images/img4.webp"
-  ];
+  startTestimonialTimer();
+  if (testimonialSection) {
+    testimonialSection.addEventListener('mouseenter', stopTestimonialTimer);
+    testimonialSection.addEventListener('mouseleave', startTestimonialTimer);
+    testimonialSection.addEventListener('touchstart', stopTestimonialTimer, { passive: true });
+    testimonialSection.addEventListener('touchend', startTestimonialTimer, { passive: true });
+  }
 
-  const heroSlides = document.querySelectorAll('.hero-slide');
-  if (heroSlides.length >= 2) {
-    let currentHeroImageIndex = 0;
-    let activeSlideDivIndex = 0;
-    
-    // Set initial background image
-    heroSlides[0].style.backgroundImage = `url('${heroSliderImages[0]}')`;
+  // Lightbox Triggers for About Page and Static Gallery Images
+  document.querySelectorAll('.lightbox-trigger, .side-reveal-wrapper').forEach(item => {
+    item.addEventListener('click', () => {
+      const img = item.querySelector('img');
+      if (img && img.src) {
+        openLightbox(img.src);
+      }
+    });
+    item.style.cursor = 'pointer';
+  });
 
-    setInterval(() => {
-      currentHeroImageIndex = (currentHeroImageIndex + 1) % heroSliderImages.length;
-      const nextSlideDivIndex = (activeSlideDivIndex + 1) % 2;
-      
-      heroSlides[nextSlideDivIndex].style.backgroundImage = `url('${heroSliderImages[currentHeroImageIndex]}')`;
-      heroSlides[nextSlideDivIndex].classList.add('active');
-      heroSlides[activeSlideDivIndex].classList.remove('active');
-      
-      activeSlideDivIndex = nextSlideDivIndex;
-    }, 2500);
+  // Contact Form submit listener attachment
+  const contactForm = document.getElementById('contact-form');
+  if (contactForm) {
+    contactForm.addEventListener('submit', handleContactSubmit);
+  }
+
+  // ============================================================
+  // HOME PAGE — 3D CoverFlow Frame with Center Image Slide Transition
+  // ============================================================
+  const heroGallery = document.getElementById('hero-gallery');
+  const heroCardsContainer = document.getElementById('hero-gallery-cards');
+  const heroCards = heroCardsContainer ? Array.from(heroCardsContainer.querySelectorAll('.hero-card')) : [];
+  const ambientGlow = document.getElementById('hero-ambient-glow');
+
+  if (heroGallery && heroCards.length) {
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Staggered reveal on load
+    if (!prefersReduced) {
+      const cardObserver = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            heroCards.forEach(card => card.classList.add('is-visible'));
+            obs.disconnect();
+          }
+        });
+      }, { threshold: 0.1 });
+      cardObserver.observe(heroGallery);
+    } else {
+      heroCards.forEach(card => {
+        card.style.opacity = '1';
+        card.classList.add('is-visible');
+      });
+    }
+
+    // ============================================================
+    // AWWWARDS-LEVEL 3D COVERFLOW CAROUSEL
+    // Every card physically glides through 3D space into the center spotlight!
+    // ============================================================
+    const activeCards = heroCards.slice(0, 5); // 5 unique physical 3D cards
+    let centerIndex = 2; // Card 3 (index 2) starts in the center spotlight
+
+    // Mood lighting glow colors & luxury captions mapped to each card's photo
+    const cardMetaData = [
+      { color: 'rgba(220, 60, 40, 0.45)',  caption: '01 / 05 &mdash; WEDDING PORTRAITS' },
+      { color: 'rgba(160, 90, 220, 0.45)', colorName: 'purple', caption: '02 / 05 &mdash; CANDID BABY MOMENTS' },
+      { color: 'rgba(215, 170, 110, 0.45)', caption: '03 / 05 &mdash; FAMILY STORYTELLING' },
+      { color: 'rgba(190, 150, 100, 0.45)', caption: '04 / 05 &mdash; LIFESTYLE & NATURE' },
+      { color: 'rgba(140, 175, 90, 0.45)',  caption: '05 / 05 &mdash; EDITORIAL WILDLIFE' }
+    ];
+
+    const cardCaptionEl = document.getElementById('hero-card-caption');
+
+    // Function to rotate all cards in 3D space to bring newCenterIndex into the spotlight
+    function render3DCoverFlow(newCenterIndex) {
+      if (!activeCards.length) return;
+      centerIndex = (newCenterIndex + activeCards.length) % activeCards.length;
+      const isMobile = window.innerWidth <= 768;
+
+      activeCards.forEach((card, index) => {
+        // Calculate wrapped 3D offset relative to current centered card [-2, 2]
+        let offset = index - centerIndex;
+        if (offset > 2) offset -= 5;
+        if (offset < -2) offset += 5;
+
+        let transformStr = '';
+        let zIndex = 1;
+        let opacity = 1;
+
+        if (offset === 0) {
+          // Center Spotlight Position
+          const tz = isMobile ? '70px' : '120px';
+          const scale = isMobile ? '1.02' : '1.05';
+          transformStr = `translateZ(${tz}) translateX(0) rotateY(0deg) scale(${scale})`;
+          zIndex = 10;
+          opacity = 1;
+          card.classList.add('is-centered');
+        } else {
+          card.classList.remove('is-centered');
+          if (offset === -1) {
+            const tz = isMobile ? '-25px' : '-40px';
+            const tx = isMobile ? '28%' : '35%';
+            const rotY = isMobile ? '-35deg' : '-45deg';
+            transformStr = `translateZ(${tz}) translateX(${tx}) rotateY(${rotY}) scale(0.92)`;
+            zIndex = 5;
+            opacity = 0.95;
+          } else if (offset === 1) {
+            const tz = isMobile ? '-25px' : '-40px';
+            const tx = isMobile ? '-28%' : '-35%';
+            const rotY = isMobile ? '35deg' : '45deg';
+            transformStr = `translateZ(${tz}) translateX(${tx}) rotateY(${rotY}) scale(0.92)`;
+            zIndex = 5;
+            opacity = 0.95;
+          } else if (offset === -2) {
+            const tz = isMobile ? '-80px' : '-120px';
+            const tx = isMobile ? '55%' : '70%';
+            const rotY = isMobile ? '-35deg' : '-45deg';
+            transformStr = `translateZ(${tz}) translateX(${tx}) rotateY(${rotY}) scale(0.82)`;
+            zIndex = 2;
+            opacity = 0.85;
+          } else if (offset === 2) {
+            const tz = isMobile ? '-80px' : '-120px';
+            const tx = isMobile ? '-55%' : '-70%';
+            const rotY = isMobile ? '35deg' : '45deg';
+            transformStr = `translateZ(${tz}) translateX(${tx}) rotateY(${rotY}) scale(0.82)`;
+            zIndex = 2;
+            opacity = 0.85;
+          }
+        }
+
+        card.style.zIndex = zIndex;
+
+        // Buttery GSAP 3D motion physics (power4.out)
+        if (typeof gsap !== 'undefined') {
+          gsap.to(card, {
+            transform: transformStr,
+            opacity: opacity,
+            duration: 0.85,
+            ease: 'power4.out',
+            overwrite: 'auto'
+          });
+        } else {
+          card.style.transform = transformStr;
+          card.style.opacity = opacity;
+        }
+      });
+
+      // Update Dynamic Caption Text
+      const activeMeta = cardMetaData[centerIndex] || cardMetaData[2];
+      if (cardCaptionEl) {
+        if (typeof gsap !== 'undefined') {
+          gsap.to(cardCaptionEl, {
+            opacity: 0,
+            y: 4,
+            duration: 0.25,
+            onComplete: () => {
+              cardCaptionEl.innerHTML = activeMeta.caption;
+              gsap.to(cardCaptionEl, { opacity: 0.9, y: 0, duration: 0.35 });
+            }
+          });
+        } else {
+          cardCaptionEl.innerHTML = activeMeta.caption;
+        }
+      }
+
+      // Morph Ambient Mood Lighting Glow
+      if (ambientGlow) {
+        const glowColor = activeMeta.color;
+        if (typeof gsap !== 'undefined') {
+          gsap.to(ambientGlow, {
+            background: `radial-gradient(ellipse at center, ${glowColor} 0%, rgba(0, 0, 0, 0) 70%)`,
+            duration: 0.85,
+            ease: 'power2.out'
+          });
+        } else {
+          ambientGlow.style.background = `radial-gradient(ellipse at center, ${glowColor} 0%, rgba(0, 0, 0, 0) 70%)`;
+        }
+      }
+    }
+
+    // Initial render of 3D CoverFlow ring
+    render3DCoverFlow(centerIndex);
+
+    // Auto-rotation interval: Smoothly brings EVERY card to center one by one every 3.5s
+    let autoSlideTimer = null;
+    function startAutoSlide() {
+      if (prefersReduced || autoSlideTimer) return;
+      autoSlideTimer = setInterval(() => {
+        render3DCoverFlow(centerIndex + 1);
+      }, 3500);
+    }
+
+    function stopAutoSlide() {
+      if (autoSlideTimer) {
+        clearInterval(autoSlideTimer);
+        autoSlideTimer = null;
+      }
+    }
+
+    // Start auto carousel on load
+    startAutoSlide();
+
+    // Pause on hover & resume on leave
+    heroGallery.addEventListener('mouseenter', stopAutoSlide);
+    heroGallery.addEventListener('mouseleave', startAutoSlide);
+
+    // Clicking ANY card smoothly rotates it into the center spotlight!
+    activeCards.forEach((card, index) => {
+      card.addEventListener('click', () => {
+        stopAutoSlide();
+        render3DCoverFlow(index);
+      });
+    });
+
+    // Wheel scrubbing rotates cards to center
+    let wheelTimeout = null;
+    heroGallery.addEventListener('wheel', (e) => {
+      if (Math.abs(e.deltaX) > 10 || Math.abs(e.deltaY) > 15) {
+        stopAutoSlide();
+        if (wheelTimeout) return;
+        const dir = (e.deltaX > 0 || e.deltaY > 0) ? 1 : -1;
+        render3DCoverFlow(centerIndex + dir);
+        wheelTimeout = setTimeout(() => { wheelTimeout = null; }, 350);
+      }
+    }, { passive: true });
+
+    // Drag / Touch scrubbing rotates cards to center
+    let startX = 0;
+    let isDragging = false;
+
+    heroCardsContainer.addEventListener('mousedown', (e) => {
+      stopAutoSlide();
+      isDragging = true;
+      startX = e.clientX;
+    });
+
+    heroCardsContainer.addEventListener('touchstart', (e) => {
+      if (e.touches && e.touches.length > 0) {
+        stopAutoSlide();
+        isDragging = true;
+        startX = e.touches[0].clientX;
+      }
+    }, { passive: true });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      const diffX = e.clientX - startX;
+      if (Math.abs(diffX) > 40) {
+        const dir = diffX < 0 ? 1 : -1;
+        render3DCoverFlow(centerIndex + dir);
+        startX = e.clientX;
+        isDragging = false;
+      }
+    });
+
+    window.addEventListener('touchmove', (e) => {
+      if (!isDragging || !e.touches || !e.touches.length) return;
+      const diffX = e.touches[0].clientX - startX;
+      if (Math.abs(diffX) > 35) {
+        const dir = diffX < 0 ? 1 : -1;
+        render3DCoverFlow(centerIndex + dir);
+        startX = e.touches[0].clientX;
+        isDragging = false;
+      }
+    }, { passive: true });
+
+    window.addEventListener('mouseup', () => { isDragging = false; });
+    window.addEventListener('touchend', () => { isDragging = false; });
+
+    // 3. Subtle parallax tilt on mouse movement (desktop only)
+    if (window.innerWidth > 768 && !prefersReduced && typeof gsap !== 'undefined') {
+      const cardState = heroCards.map((card) => ({
+        depth: parseFloat(card.dataset.depth || '1.0'),
+        tx: 0, ty: 0,
+        cx: 0, cy: 0,
+        lerpSpeed: 0.06
+      }));
+
+      heroGallery.addEventListener('mousemove', (e) => {
+        const rect = heroGallery.getBoundingClientRect();
+        const normX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;  // -1 to +1
+        const normY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+
+        heroCards.forEach((card, i) => {
+          const depth = cardState[i].depth;
+          const dir = i % 2 === 0 ? 1 : -1;
+          cardState[i].tx = normX * depth * dir * 8;   // very subtle: max ~11px
+          cardState[i].ty = normY * depth * dir * 5;
+        });
+      });
+
+      heroGallery.addEventListener('mouseleave', () => {
+        cardState.forEach(s => { s.tx = 0; s.ty = 0; });
+      });
+
+      // Smooth ticker-based lerp (reusing existing GSAP ticker)
+      gsap.ticker.add(() => {
+        heroCards.forEach((card, i) => {
+          const s = cardState[i];
+          s.cx += (s.tx - s.cx) * s.lerpSpeed;
+          s.cy += (s.ty - s.cy) * s.lerpSpeed;
+          if (Math.abs(s.cx) > 0.01 || Math.abs(s.cy) > 0.01 || s.tx === 0) {
+            const img = card.querySelector('img');
+            if (img) {
+              gsap.set(img, { x: s.cx, y: s.cy });
+            }
+          }
+        });
+      });
+    }
   }
 
   // Reveal Animations (Intro section B&W to color, curtain reveal, side reveal, secret cards)
@@ -492,9 +810,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ============================================================
-  // CUSTOM CURSOR — Site-wide Desktop Implementation
+  // CUSTOM CURSOR — Site-wide Desktop Fine-Pointer Implementation
   // ============================================================
-  if (window.innerWidth > 768) {
+  if (window.matchMedia('(pointer: fine)').matches) {
     let cursor = document.getElementById('mc-cursor');
     let cursorDot = document.getElementById('mc-cursor-dot');
 
@@ -529,8 +847,24 @@ document.addEventListener('DOMContentLoaded', () => {
       mouse.y = e.clientY;
     });
 
+    document.documentElement.addEventListener('mouseleave', () => {
+      cursor.style.opacity = '0';
+      cursorDot.style.opacity = '0';
+    });
+
+    document.documentElement.addEventListener('mouseenter', () => {
+      if (hasMoved) {
+        cursor.style.opacity = '1';
+        cursorDot.style.opacity = '1';
+      }
+    });
+
     // Smooth GSAP Ticker Tracking (Responsive lerp values)
     if (typeof gsap !== 'undefined') {
+      // Fix: tell GSAP to preserve the CSS centering translation
+      gsap.set(cursor, { xPercent: -50, yPercent: -50 });
+      gsap.set(cursorDot, { xPercent: -50, yPercent: -50 });
+
       gsap.ticker.add(() => {
         cursorPos.x += (mouse.x - cursorPos.x) * 0.22;
         cursorPos.y += (mouse.y - cursorPos.y) * 0.22;

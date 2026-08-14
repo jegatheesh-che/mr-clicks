@@ -6,6 +6,12 @@
   <title>Mr Clicks | Wedding &amp; Lifestyle Photographer Newcastle</title>
   <meta name="description" content="Mr Clicks — Mithun is a Newcastle-based wedding and lifestyle photographer capturing unscripted, natural moments with an editorial, cinematic twist.">
   <link rel="icon" type="image/png" href="assets/images/img40.webp">
+  
+  <!-- Preconnect & Google Fonts for Luxury Editorial Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Pinyon+Script&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
   <link rel="stylesheet" href="assets/css/style.css">
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
@@ -37,7 +43,7 @@
           </ul>
         </li>
         <li><a href="portfolio.html?filter=lifestyle" class="nav-link" id="nav-lifestyle">Lifestyle</a></li>
-
+        <li><a href="details.html" class="nav-link" id="nav-details">Investment</a></li>
         <li><a href="contact.html" class="nav-link" id="nav-contact">Connect</a></li>
       </ul>
     </nav>
@@ -83,8 +89,14 @@
           </a>
         </li>
         <li>
-          <a href="contact.html" class="mobile-nav-link">
+          <a href="details.html" class="mobile-nav-link">
             <span class="num">05</span>
+            <span class="label">Investment</span>
+          </a>
+        </li>
+        <li>
+          <a href="contact.html" class="mobile-nav-link">
+            <span class="num">06</span>
             <span class="label">Connect</span>
           </a>
         </li>
@@ -102,18 +114,35 @@
   </div>
 
   <main>
-    <!-- Hero Canvas Section -->
-    <section class="hero-section has-slides" id="hero-slider">
-      <div class="hero-slides">
-        <div class="hero-slide active" style="background-image: url('assets/images/img12.webp');"></div>
-        <div class="hero-slide next-slide"></div>
+    <!-- Hero — Stardust Ambient Floating Image Cloud -->
+    <section class="stardust-hero" id="stardust-hero">
+      <!-- Center Text Content -->
+      <div class="hero-title">
+        <span class="hero-tagline-sub">Visual Storyteller &amp; Film Inspired</span>
+        <span class="hero-script-tag">Photojournalistic Style with a Cinematic Twist</span>
+        <h1 class="brand-heading">MR CLICKS</h1>
+        <div class="hero-cta-box">
+          <a href="portfolio.html" class="stardust-btn">Explore Portfolio</a>
+          <a href="contact.html" class="btn-outline" style="border-color: rgba(255,255,255,0.4); color: #fff;">Get In Touch</a>
+        </div>
       </div>
-      <div class="hero-overlay"></div>
-      <div class="hero-content">
-        <h1 class="hero-title">Mr Clicks</h1>
-        <p class="hero-subtitle">Photojournalistic Style with a Cinematic Twist</p>
-        <a href="contact.html" class="btn-primary" id="hero-cta-btn">Get In Touch</a>
+      
+      <!-- Ambient Floating Image Cloud Layer -->
+      <div class="hero-images">
+        <img src="assets/images/img12.webp" alt="Wedding Photography" class="hero-img" style="--delay: 0s; --duration: 4.5s; top: 8%; left: 8%;">
+        <img src="assets/images/img23.webp" alt="Baby Portraits" class="hero-img" style="--delay: 1.5s; --duration: 5.5s; top: 62%; left: 68%;">
+        <img src="assets/images/img20.webp" alt="Family Photography" class="hero-img" style="--delay: 3s; --duration: 4.8s; top: 14%; left: 80%;">
+        <img src="assets/images/img4.webp"  alt="Natural Moments" class="hero-img" style="--delay: 0.5s; --duration: 4s; top: 54%; left: 7%;">
+        <img src="assets/images/img29.webp" alt="Editorial Stories" class="hero-img" style="--delay: 2.2s; --duration: 6s; top: 8%; left: 45%;">
+        <img src="assets/images/img32.webp" alt="Stunning Portraits" class="hero-img" style="--delay: 3.8s; --duration: 5.2s; top: 74%; left: 28%;">
+        <img src="assets/images/img51.webp" alt="Mithun Photographer" class="hero-img" style="--delay: 1s; --duration: 4.2s; top: 38%; left: 76%;">
       </div>
+
+      <!-- Brand Pill Credit -->
+      <a href="about.html" class="redesignee-credit">
+        Meet Mithun &mdash; Newcastle &amp; Worldwide
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
     </section>
 
     <!-- Intro Section -->

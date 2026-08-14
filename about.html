@@ -6,6 +6,12 @@
   <title>About Mithun | Mr Clicks Photography</title>
   <meta name="description" content="Get to know Mithun — Newcastle-based wedding and lifestyle photographer, graduate, storyteller, and the face behind Mr Clicks Photography.">
   <link rel="icon" type="image/png" href="assets/images/img40.webp">
+
+  <!-- Preconnect & Google Fonts for Luxury Editorial Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Pinyon+Script&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="assets/css/style.css">
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
@@ -36,7 +42,7 @@
           </ul>
         </li>
         <li><a href="portfolio.html?filter=lifestyle" class="nav-link">Lifestyle</a></li>
-
+        <li><a href="details.html" class="nav-link">Investment</a></li>
         <li><a href="contact.html" class="nav-link">Connect</a></li>
       </ul>
     </nav>
@@ -80,10 +86,15 @@
             <span class="label">Lifestyle</span>
           </a>
         </li>
-
+        <li>
+          <a href="details.html" class="mobile-nav-link">
+            <span class="num">05</span>
+            <span class="label">Investment</span>
+          </a>
+        </li>
         <li>
           <a href="contact.html" class="mobile-nav-link">
-            <span class="num">05</span>
+            <span class="num">06</span>
             <span class="label">Connect</span>
           </a>
         </li>
@@ -233,18 +244,18 @@
     <!-- Gallery Showcase Section — Side Reveal Animation -->
     <section class="section-padding container">
       <div class="section-title-wrap">
-        <span class="script-subheading">A Glimpse Into My World</span>
-        <h2 class="heading-secondary">Some Favourites</h2>
+        <span class="script-subheading" style="color: var(--color-earth-dark); font-size: 1.55rem;">A Glimpse Into My World</span>
+        <h2 class="heading-secondary" style="margin-top: 0.5rem;">Some Favourites</h2>
       </div>
 
       <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;">
-        <div class="side-reveal-wrapper reveal-left" style="aspect-ratio: 3/4;">
+        <div class="side-reveal-wrapper reveal-left lightbox-trigger" style="aspect-ratio: 3/4; cursor: pointer;" onclick="openLightbox('assets/images/img54.webp')">
           <img src="assets/images/img54.webp" alt="Mithun Traditional Look" loading="lazy" class="reveal-image" style="width:100%; height:100%; object-fit:cover;">
         </div>
-        <div class="side-reveal-wrapper reveal-right" style="aspect-ratio: 3/4; transition-delay: 0.2s;">
+        <div class="side-reveal-wrapper reveal-right lightbox-trigger" style="aspect-ratio: 3/4; transition-delay: 0.2s; cursor: pointer;" onclick="openLightbox('assets/images/img57.webp')">
           <img src="assets/images/img57.webp" alt="Mithun Graduation Northumbria University" loading="lazy" class="reveal-image" style="width:100%; height:100%; object-fit:cover;">
         </div>
-        <div class="side-reveal-wrapper reveal-left" style="aspect-ratio: 3/4; transition-delay: 0.4s;">
+        <div class="side-reveal-wrapper reveal-left lightbox-trigger" style="aspect-ratio: 3/4; transition-delay: 0.4s; cursor: pointer;" onclick="openLightbox('assets/images/img51.webp')">
           <img src="assets/images/img51.webp" alt="Mithun at Justice Square Newcastle" loading="lazy" class="reveal-image" style="width:100%; height:100%; object-fit:cover;">
         </div>
       </div>
