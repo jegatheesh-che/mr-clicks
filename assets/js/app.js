@@ -112,7 +112,7 @@ const PROCESS_STEPS_DATA = [
   }
 ];
 
-const PORTFOLIO_IMAGES_DATA = [
+window.PORTFOLIO_IMAGES_DATA = [
   // Weddings
   { url: "assets/images/img15.webp", category: "weddings", title: "Brighton Coastal Romance" },
   { url: "assets/images/img16.webp", category: "weddings", title: "Cinematic Sunset Moments" },
@@ -260,8 +260,8 @@ function renderPortfolio(filter = 'all') {
   if (!container) return;
 
   const filteredItems = filter === 'all' 
-    ? PORTFOLIO_IMAGES_DATA 
-    : PORTFOLIO_IMAGES_DATA.filter(item => item.category === filter);
+    ? window.PORTFOLIO_IMAGES_DATA 
+    : window.PORTFOLIO_IMAGES_DATA.filter(item => item.category === filter);
 
   container.innerHTML = filteredItems.map(item => `
     <div class="portfolio-item" onclick="openLightbox('${item.url}')">
