@@ -106,6 +106,11 @@
     }
     .status-msg.success { background: #d4edda; color: #155724; display: block; }
     .status-msg.error { background: #f8d7da; color: #721c24; display: block; }
+    
+    /* Fix cursor issue where custom cursor isn't rendered but default is hidden */
+    body, * { cursor: auto !important; }
+    button, a, input[type="submit"], select, label { cursor: pointer !important; }
+    input[type="text"], input[type="email"], input[type="password"], textarea { cursor: text !important; }
   </style>
 </head>
 <body>
@@ -143,7 +148,10 @@
           </div>
           <div class="admin-form-group">
             <label for="admin-password">Password</label>
-            <input type="password" id="admin-password" class="admin-input" required>
+            <div style="position: relative;">
+              <input type="password" id="admin-password" class="admin-input" style="padding-right: 40px;" required>
+              <button type="button" id="toggle-password" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 1.2rem;" title="Toggle Password Visibility">👁️</button>
+            </div>
           </div>
           <button type="submit" class="admin-btn" style="width: 100%;">Login</button>
         </form>
@@ -197,5 +205,19 @@
 
   <!-- Firebase & App Logic -->
   <script type="module" src="assets/js/admin.js"></script>
+  <script>
+    // Toggle Password Visibility
+    const togglePassword = document.getElementById('toggle-password');
+    const passwordInput = document.getElementById('admin-password');
+    
+    if (togglePassword && passwordInput) {
+      togglePassword.addEventListener('click', () => {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        // Change icon based on state
+        togglePassword.textContent = type === 'password' ? '👁️' : '🙈';
+      });
+    }
+  </script>
 </body>
 </html>
