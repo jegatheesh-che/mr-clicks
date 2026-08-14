@@ -95,7 +95,10 @@ if (uploadForm) {
     const category = document.getElementById('image-category').value;
     let baseTitle = document.getElementById('image-title').value.trim();
     
-    if (fileInput.files.length === 0) return;
+    if (fileInput.files.length === 0) {
+      showToast('Please select at least one image to upload', 'error');
+      return;
+    }
     const files = Array.from(fileInput.files);
 
     uploadBtn.disabled = true;

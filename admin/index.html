@@ -80,11 +80,11 @@
           <form id="upload-form">
             <div class="form-group">
               <label>Select Image</label>
-              <div style="position: relative; overflow: hidden; background: var(--app-bg); border-radius: 12px; border: 1px dashed rgba(255,255,255,0.2); padding: 2rem; text-align: center; cursor: pointer;" onclick="document.getElementById('image-file').click()">
+              <label style="display: block; position: relative; overflow: hidden; background: var(--app-bg); border-radius: 12px; border: 1px dashed rgba(255,255,255,0.2); padding: 2rem; text-align: center; cursor: pointer;">
                 <i data-feather="upload-cloud" style="width: 32px; height: 32px; color: var(--app-primary); margin-bottom: 0.5rem;"></i>
                 <p style="color: var(--app-text-muted); font-size: 0.85rem;" id="file-name-display">Tap to choose files</p>
-                <input type="file" id="image-file" accept="image/*" multiple required style="display: none;" onchange="document.getElementById('file-name-display').textContent = this.files.length > 1 ? this.files.length + ' files selected' : (this.files[0]?.name || 'Tap to choose files')">
-              </div>
+                <input type="file" id="image-file" accept="image/*" multiple style="display: none;" onchange="document.getElementById('file-name-display').textContent = this.files.length > 1 ? this.files.length + ' files selected' : (this.files[0]?.name || 'Tap to choose files')">
+              </label>
             </div>
             
             <div class="form-group">
