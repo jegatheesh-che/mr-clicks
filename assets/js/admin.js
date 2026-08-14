@@ -6,7 +6,8 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import {
   collection, addDoc, getDocs, deleteDoc,
-  doc, serverTimestamp, query, orderBy, writeBatch
+  doc, serverTimestamp, query, orderBy, writeBatch,
+  where, getCountFromServer
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 // ─── DOM refs ───────────────────────────────────────────────────
@@ -26,9 +27,14 @@ const bulkBar       = document.getElementById('bulk-bar');
 const bulkCountText = document.getElementById('bulk-count-text');
 const bulkDeleteBtn = document.getElementById('bulk-delete-btn');
 
+// ─── DOM refs – Categories ─────────────────────────────────────
+const addCategoryForm = document.getElementById('add-category-form');
+const categoriesList  = document.getElementById('categories-list');
+
 // ─── State ───────────────────────────────────────────────────────
 let selectionMode = false;
 let selected = new Set();       // doc IDs
+let categoriesCache = [];       // [{id, name, slug}]
 
 // ─── Toast ───────────────────────────────────────────────────────
 function toast(msg, type = 'info') {
@@ -50,6 +56,7 @@ onAuthStateChanged(auth, user => {
   if (user) {
     showView(viewDashboard);
     appNav.style.display = '';
+    loadCategories();   // load categories first (populates upload dropdown)
     loadImages();
   } else {
     showView(viewLogin);
@@ -336,3 +343,143 @@ bulkDeleteBtn.addEventListener('click', async () => {
     if (window.feather) feather.replace({ 'stroke-width': 2 });
   }
 });
+
+// ─── Categories ───────────────────────────────────────────────────
+
+// Default seed categories (created if Firestore is empty)
+const DEFAULT_CATEGORIES = ['Weddings', 'Stories', 'Lifestyle', 'Personal Branding'];
+
+async function loadCategories() {
+  const catSelect = document.getElementById('image-category');
+
+  try {
+    const q = query(collection(db, 'categories'), orderBy('createdAt', 'asc'));
+    const snap = await getDocs(q);
+
+    // Seed defaults if collection is empty
+    if (snap.empty) {
+      for (const name of DEFAULT_CATEGORIES) {
+        await addDoc(collection(db, 'categories'), {
+          name,
+          slug: slugify(name),
+          createdAt: serverTimestamp()
+        });
+      }
+      // Reload after seeding
+      return loadCategories();
+    }
+
+    // Cache categories
+    categoriesCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+    // Populate upload dropdown
+    if (catSelect) {
+      catSelect.innerHTML = categoriesCache
+        .map(c => `<option value="${c.slug}">${c.name}</option>`)
+        .join('');
+    }
+
+    // Render categories list
+    renderCategoriesList();
+
+  } catch (err) {
+    console.error('loadCategories error:', err);
+    toast('Failed to load categories', 'error');
+  }
+}
+
+function renderCategoriesList() {
+  if (!categoriesList) return;
+
+  if (!categoriesCache.length) {
+    categoriesList.innerHTML = '<p class="empty-text">No categories yet.</p>';
+    return;
+  }
+
+  categoriesList.innerHTML = categoriesCache.map(c => `
+    <div class="category-item" data-id="${c.id}">
+      <div class="category-item-name">
+        <i data-feather="tag"></i>
+        <span>${c.name}</span>
+        <span class="category-badge">${c.slug}</span>
+      </div>
+      <button class="category-delete-btn" data-id="${c.id}" data-name="${c.name}" title="Delete category">
+        <i data-feather="trash-2"></i>
+      </button>
+    </div>
+  `).join('');
+
+  if (window.feather) feather.replace({ 'stroke-width': 2 });
+
+  // Attach delete listeners
+  categoriesList.querySelectorAll('.category-delete-btn').forEach(btn => {
+    btn.addEventListener('click', () => deleteCategory(btn.dataset.id, btn.dataset.name));
+  });
+}
+
+// Add Category
+if (addCategoryForm) {
+  addCategoryForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    const input = document.getElementById('new-category-name');
+    const name  = input.value.trim();
+    if (!name) return;
+
+    const addBtn = document.getElementById('add-category-btn');
+
+    // Prevent duplicate names
+    if (categoriesCache.some(c => c.name.toLowerCase() === name.toLowerCase())) {
+      toast(`"${name}" already exists`, 'error');
+      return;
+    }
+
+    addBtn.disabled = true;
+    addBtn.textContent = 'Adding…';
+
+    try {
+      await addDoc(collection(db, 'categories'), {
+        name,
+        slug: slugify(name),
+        createdAt: serverTimestamp()
+      });
+      toast(`Category "${name}" added!`, 'success');
+      input.value = '';
+      await loadCategories();
+    } catch (err) {
+      toast('Failed to add category: ' + err.message, 'error');
+    } finally {
+      addBtn.disabled = false;
+      addBtn.innerHTML = '<i data-feather="plus"></i> Add';
+      if (window.feather) feather.replace({ 'stroke-width': 2 });
+    }
+  });
+}
+
+// Delete Category
+async function deleteCategory(id, name) {
+  // Check if any images use this category
+  const slug = slugify(name);
+  const usageSnap = await getCountFromServer(
+    query(collection(db, 'portfolio_images'), where('category', '==', slug))
+  );
+  const count = usageSnap.data().count;
+
+  const msg = count > 0
+    ? `"${name}" is used by ${count} image(s). Deleting it will NOT remove those images, but the filter will disappear. Continue?`
+    : `Delete category "${name}"? This cannot be undone.`;
+
+  if (!confirm(msg)) return;
+
+  try {
+    await deleteDoc(doc(db, 'categories', id));
+    toast(`Category "${name}" deleted`, 'success');
+    await loadCategories();
+  } catch (err) {
+    toast('Failed to delete: ' + err.message, 'error');
+  }
+}
+
+// Utility: name → slug
+function slugify(name) {
+  return name.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+}

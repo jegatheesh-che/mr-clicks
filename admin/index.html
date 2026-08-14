@@ -130,6 +130,38 @@
       </div>
     </div>
 
+    <!-- ===== CATEGORIES VIEW ===== -->
+    <div id="view-categories" class="view">
+      <div class="page-content">
+        <h1 class="page-title">Categories</h1>
+        <p class="page-sub">Manage the filters shown on your portfolio</p>
+
+        <!-- Add New Category -->
+        <div class="upload-card" style="margin-top:1rem;">
+          <p class="section-label">Add New Category</p>
+          <form id="add-category-form" novalidate>
+            <div class="field-group" style="margin-bottom:0;">
+              <div style="display:flex;gap:.6rem;">
+                <input type="text" id="new-category-name" class="field" placeholder="e.g. Portraits" style="flex:1;" required>
+                <button type="submit" id="add-category-btn" class="btn btn-primary" style="flex-shrink:0;">
+                  <i data-feather="plus"></i>
+                  Add
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- Existing Categories List -->
+        <div class="upload-card" style="margin-top:1rem;">
+          <p class="section-label">Existing Categories</p>
+          <div id="categories-list">
+            <p class="empty-text">Loading…</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- ===== NAV (hidden until logged in) ===== -->
     <nav id="app-nav" class="app-nav" style="display:none;">
       <button class="nav-item active" data-target="view-dashboard">
@@ -139,6 +171,10 @@
       <button class="nav-item" data-target="view-upload">
         <i data-feather="plus-circle"></i>
         <span>Upload</span>
+      </button>
+      <button class="nav-item" data-target="view-categories">
+        <i data-feather="tag"></i>
+        <span>Categories</span>
       </button>
     </nav>
 
