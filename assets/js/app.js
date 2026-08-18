@@ -289,6 +289,31 @@ function handleContactSubmit(e) {
   if (!form || !wrapper) return false;
 
   const firstName = document.getElementById('first-name')?.value || 'Friend';
+  const partnerName = document.getElementById('partner-name')?.value || '';
+  const email = document.getElementById('email')?.value || '';
+  const phone = document.getElementById('phone')?.value || '';
+  const eventDate = document.getElementById('event-date')?.value || '';
+  const serviceType = document.getElementById('service-type')?.value || '';
+  const venue = document.getElementById('venue')?.value || '';
+  const referral = document.getElementById('referral')?.value || '';
+  const message = document.getElementById('message')?.value || '';
+
+  // Construct WhatsApp Message
+  let msgContent = `*New Contact Form Inquiry*\n\n`;
+  msgContent += `*Name:* ${firstName} ${partnerName ? '& ' + partnerName : ''}\n`;
+  msgContent += `*Email:* ${email}\n`;
+  if(phone) msgContent += `*Phone:* ${phone}\n`;
+  if(eventDate) msgContent += `*Event Date:* ${eventDate}\n`;
+  msgContent += `*Service Type:* ${serviceType}\n`;
+  if(venue) msgContent += `*Venue:* ${venue}\n`;
+  if(referral) msgContent += `*Referral:* ${referral}\n`;
+  msgContent += `*Message:* ${message}`;
+
+  const whatsappNumber = "447776268018";
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msgContent)}`;
+
+  // Open WhatsApp in a new tab
+  window.open(whatsappUrl, '_blank');
 
   // Smooth fade out form and show luxury confirmation card
   form.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
